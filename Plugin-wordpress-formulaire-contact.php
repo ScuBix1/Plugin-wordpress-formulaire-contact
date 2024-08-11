@@ -17,9 +17,27 @@ if(!function_exists('active_plugin_contact')){
             id int not null auto_increment,
             name varchar(200),
             email varchar(100),
+            date_send date,
             primary key(id)
         )";
         $wpdb->query($sql);
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form add index(`name`);");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form add index(`email`);");
+        $wpdb->query("CREATE TABLE IF NOT EXISTS {$wpdb->prefix}contact_form_response(
+            id int not null auto_increment,
+            id_contact_form int,
+            name varchar(200) not null,
+            email varchar(100) not null,
+            phone varchar(255) not null,
+            message_response text not null,
+            date_send date,
+            primary key(id)
+        );");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response ADD CONTRAINT fk_id_contact_form (id_contact_form) references {$wpdb->prefix}contact_form ;");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`name`);");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`email`);");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`phone`);");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`message_response`);");
     }
 }
 if(!function_exists('deactive_plugin_contact')){
