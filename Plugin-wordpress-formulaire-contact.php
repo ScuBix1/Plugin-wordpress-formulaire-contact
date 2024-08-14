@@ -33,7 +33,7 @@ if(!function_exists('active_plugin_contact')){
             date_send date,
             primary key(id)
         );");
-        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response ADD CONTRAINT fk_id_contact_form (id_contact_form) references {$wpdb->prefix}contact_form ;");
+        $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response ADD CONTRAINT fk_id_contact_form FOREIGN KEY (id_contact_form) references {$wpdb->prefix}contact_form(id) ;");
         $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`name`);");
         $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`email`);");
         $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`phone`);");
@@ -42,7 +42,7 @@ if(!function_exists('active_plugin_contact')){
 }
 if(!function_exists('deactive_plugin_contact')){
     function deactive_plugin_contact(){
-
+        flush_rewrite_rules();
     }
 }
 register_activation_hook(__FILE__, 'active_plugin_contact');
