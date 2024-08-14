@@ -59,4 +59,19 @@ add_action('admin_enqueue_scripts', function ($hook) {
         wp_enqueue_script("sweetalert2",    plugins_url('/assets/js/sweetalert2.js'), array('jquery'));
         wp_enqueue_script("funciones",    plugins_url('/assets/js/funciones.js'));
     }
-})
+});
+if(!function_exists('contact_form_menu')){
+    add_action('admin_menu','contact_form_menu');
+    function contact_form_menu(){
+        add_menu_page(
+            'Contact form',
+            'Contact form',
+            'manage_options',
+            plugin_dir_path(__FILE__).'includes/list.php',
+            null,
+            'dash-icon-alt',
+            137
+        );
+    }
+}
+?>
