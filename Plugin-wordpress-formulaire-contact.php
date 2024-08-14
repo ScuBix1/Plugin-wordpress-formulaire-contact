@@ -10,8 +10,9 @@ License: GPL
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Plugin-wordpress-contact-form
 */
-if(!function_exists('active_plugin_contact')){
-    function active_plugin_contact(){
+if (!function_exists('active_plugin_contact')) {
+    function active_plugin_contact()
+    {
         global $wpdb;
         $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}contact_form(
             id int not null auto_increment,
@@ -40,11 +41,22 @@ if(!function_exists('active_plugin_contact')){
         $wpdb->query("ALTER TABLE {$wpdb->prefix}contact_form_response add index(`message_response`);");
     }
 }
-if(!function_exists('deactive_plugin_contact')){
-    function deactive_plugin_contact(){
+if (!function_exists('deactive_plugin_contact')) {
+    function deactive_plugin_contact()
+    {
         flush_rewrite_rules();
     }
 }
 register_activation_hook(__FILE__, 'active_plugin_contact');
 register_activation_hook(__FILE__, 'deactive_plugin_contact');
-?>
+
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ($hook == 'contact_form/admin/list.php') {
+        wp_enqueue_style("bootstrapcss", plugins_url('assets/css/bootstrap.min.css', __FILE__));
+        wp_enqueue_style("font-awesome", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css", array(), '6.6.0');
+        wp_enqueue_style('sweetalert2', plugins_url('assets/css/sweetalert2.css'), __FILE__);
+        wp_enqueue_script("bootstrapjs", plugins_url('/assets/js/bootstrap.min.js'), array('jquery'));
+        wp_enqueue_script("sweetalert2",    plugins_url('/assets/js/sweetalert2.js'), array('jquery'));
+        wp_enqueue_script("funciones",    plugins_url('/assets/js/funciones.js'));
+    }
+})
