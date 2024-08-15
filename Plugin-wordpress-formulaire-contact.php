@@ -51,7 +51,7 @@ register_activation_hook(__FILE__, 'active_plugin_contact');
 register_activation_hook(__FILE__, 'deactive_plugin_contact');
 
 add_action('admin_enqueue_scripts', function ($hook) {
-    if ($hook == 'contact_form/admin/list.php') {
+    if ($hook == 'Plugin-wordpress-formulaire-contact/includes/list.php') {
         wp_enqueue_style("bootstrapcss", plugins_url('assets/css/bootstrap.min.css', __FILE__));
         wp_enqueue_style("font-awesome", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css", array(), '6.6.0');
         wp_enqueue_style('sweetalert2', plugins_url('assets/css/sweetalert2.css'), __FILE__);
