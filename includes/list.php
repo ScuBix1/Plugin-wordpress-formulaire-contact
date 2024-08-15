@@ -2,6 +2,10 @@
 if(!defined('ABSPATH')){
     die();
 }
+global $wpdb;
+$table = "{$wpdb->prefix}contact_form";
+$table2 = "{$wpdb->prefix}contact_form_response";
+$datas = $wpdb->get_results("SELECT * FROM {$table}");
 ?>
 <div class="wrap">
     <div class="container-fluid">
@@ -23,6 +27,22 @@ if(!defined('ABSPATH')){
                             <th>Actions</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php 
+                        foreach($datas as $data){
+                        ?>
+                            <tr>
+                                <td><?php echo($data->id); ?></td>
+                                <td><?php echo($data->name); ?></td>
+                                <td><?php echo($data->email); ?></td>
+                                <td class="text-center">[plugin_contact id= <?php echo($data->id); ?>]</td>
+                                <td class="text-center"><a href=""><i class="fas fa-search"></i></a></td>
+                                <td class="text-center"><a href="" class="d-flex justify-content-around"><i class="fas fa-edit"></i><i class="fas fa-trash"></i></a></td>
+                            </tr>
+                        <?php    
+                        }
+                        ?>
+                    </tbody>
                 </table>
             </div>
         </div>
